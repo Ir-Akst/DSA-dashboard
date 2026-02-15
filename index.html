@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>DSA Dashboard</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f6f9;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .dashboard {
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        width: 420px;
+        text-align: center;
+    }
+
+    h1 {
+        margin-bottom: 5px;
+    }
+
+    .date {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    .reminder {
+        background: #fff3cd;
+        padding: 10px;
+        border-radius: 6px;
+        font-size: 13px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+
+    .timer-display {
+        font-size: 32px;
+        margin: 15px 0;
+        font-weight: bold;
+    }
+
+    .btn {
+        display: block;
+        text-decoration: none;
+        background: #4CAF50;
+        color: white;
+        padding: 14px;
+        margin: 10px 0;
+        border-radius: 8px;
+        transition: 0.2s ease;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn:hover {
+        background: #45a049;
+        transform: translateY(-2px);
+    }
+
+    .secondary-btn {
+        background: #dc3545;
+    }
+
+    .secondary-btn:hover {
+        background: #c82333;
+    }
+
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+
+    <h1>DSA Control Panel</h1>
+    <div class="date" id="todayDate"></div>
+
+    <div class="reminder">
+        🔁 Start with Revision → Then Deep Work (45 min)
+    </div>
+
+    <div class="timer-display" id="timer">45:00</div>
+
+    <button class="btn" onclick="startTimer()">▶ Start 45 Min</button>
+    <button class="btn secondary-btn" onclick="resetTimer()">⟲ Reset</button>
+
+    <a href="Month1_Tracker.xlsx" class="btn">📘 Problem Tracker</a>
+    <a href="Pattern_Sheet.xlsx" class="btn">🧠 Pattern Sheet</a>
+    <a href="6Month_Plan.xlsx" class="btn">🗺 6 Month Plan</a>
+
+</div>
+
+<script>
+    // Date
+    const today = new Date();
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    document.getElementById("todayDate").innerText =
+        "📅 " + today.toLocaleDateString('en-GB', options);
+
+    let initialTime = 2700; // 45 minutes
+    let time = initialTime;
+    let timerInterval;
+
+    function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(function () {
+            let minutes = Math.floor(time / 60);
+            let seconds = time % 60;
+
+            document.getElementById("timer").innerText =
+                (minutes < 10 ? "0" : "") + minutes + ":" +
+                (seconds < 10 ? "0" : "") + seconds;
+
+            if (time <= 0) {
+                clearInterval(timerInterval);
+                alert("⏳ 45 Minutes Complete! Take 5–10 min break.");
+            }
+
+            time--;
+        }, 1000);
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval);
+        time = initialTime;
+        document.getElementById("timer").innerText = "45:00";
+    }
+</script>
+
+</body>
+</html>
