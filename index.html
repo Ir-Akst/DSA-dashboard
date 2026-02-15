@@ -74,9 +74,9 @@
     .secondary-btn:hover {
         background: #c82333;
     }
-
 </style>
 </head>
+
 <body>
 
 <div class="dashboard">
@@ -93,14 +93,33 @@
     <button class="btn" onclick="startTimer()">▶ Start 45 Min</button>
     <button class="btn secondary-btn" onclick="resetTimer()">⟲ Reset</button>
 
-    <a href="https://docs.google.com/spreadsheets/d/1yEB7AlMuv9-9DbWR0wu8ayeJCrO02iOx833nDbAuFWE/edit?gid=0#gid=0" class="btn" target="_blank" >📘 Problem Tracker</a>
-    <a href="https://docs.google.com/document/d/1WiXbLr8edZZHh5B7kMuDhl9Q5QV4lCNKmMJDt1vZd8c/edit?tab=t.0" target="_blank" class="btn">🧠 Pattern Sheet</a>
-    <a href="https://docs.google.com/document/d/1ewJ790J8qycEKnoe5ObbwKq41EWsM4beGpeMFhdy65w/edit?tab=t.0#heading=h.p6xcsagqisem" target="_blank"  class="btn">🗺 6 Month Plan</a>
+    <!-- Google Links -->
+    <a href="https://docs.google.com/spreadsheets/d/1yEB7AlMuv9-9DbWR0wu8ayeJCrO02iOx833nDbAuFWE/edit?gid=0#gid=0"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="btn">
+       📘 Problem Tracker
+    </a>
+
+    <a href="https://docs.google.com/document/d/1WiXbLr8edZZHh5B7kMuDhl9Q5QV4lCNKmMJDt1vZd8c/edit?tab=t.0"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="btn">
+       🧠 Pattern Sheet
+    </a>
+
+    <a href="https://docs.google.com/document/d/1ewJ790J8qycEKnoe5ObbwKq41EWsM4beGpeMFhdy65w/edit?tab=t.0#heading=h.p6xcsagqisem"
+       target="_blank"
+       rel="noopener noreferrer"
+       class="btn">
+       🗺 6 Month Plan
+    </a>
 
 </div>
 
 <script>
-    // Date
+
+    // Show today's date
     const today = new Date();
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     document.getElementById("todayDate").innerText =
@@ -108,11 +127,14 @@
 
     let initialTime = 2700; // 45 minutes
     let time = initialTime;
-    let timerInterval;
+    let timerInterval = null;
 
     function startTimer() {
-        clearInterval(timerInterval);
+
+        if (timerInterval) return; // prevent multiple starts
+
         timerInterval = setInterval(function () {
+
             let minutes = Math.floor(time / 60);
             let seconds = time % 60;
 
@@ -122,18 +144,25 @@
 
             if (time <= 0) {
                 clearInterval(timerInterval);
-                alert("⏳ 45 Minutes Complete! Take 5–10 min break.");
+                timerInterval = null;
+                time = initialTime;
+                document.getElementById("timer").innerText = "45:00";
+                alert("45 Minutes Complete! Take a short break.");
+                return;
             }
 
             time--;
+
         }, 1000);
     }
 
     function resetTimer() {
         clearInterval(timerInterval);
+        timerInterval = null;
         time = initialTime;
         document.getElementById("timer").innerText = "45:00";
     }
+
 </script>
 
 </body>
